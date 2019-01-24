@@ -1,0 +1,35 @@
+server:
+  port: 8081
+
+# actuator will dump the properties listed here:
+# ----- example:
+# localhost:8081/info
+# -----
+# path "/sbin:/bin:/usr/bin:/usr/local/bin:...."
+# java
+#   version "1.8"
+#   vendor "Oracle Corporation"
+# -----
+info:
+  path: ${PATH}
+  java:
+    version: ${java.specification.version}
+    vendor: ${java.specification.vendor}
+
+# Actuator urls (see log at startup)
+# /info
+# /autoconfig
+# /heapdump
+# /dump
+# /metrics/{name:.*}],
+# /metrics
+# /mappings
+# /beans
+# /env/{name:.*}
+# /env
+# /auditevents
+# /trace
+# /configprops
+# /health
+# /loggers
+# /loggers/{name:.*}
