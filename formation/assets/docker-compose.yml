@@ -1,0 +1,39 @@
+version: '2'
+services:
+  gestionclient-gateway:
+    container_name: gestionclient-gateway
+    ports:
+      - "8080:8080"
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    image: traefik
+    command: --api --docker
+  gestionclient-mysql:
+    container_name: gestionclient-mysql
+    image: mysql
+    volumes:
+      - "/home/cyril/tmp/mysql-data:/var/lib/mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=cyril
+      - MYSQL_DATABASE=gestionclient
+  gestionclient-api:
+    image: gestionclient-api
+    links:
+      - "gestionclient-mysql:bdd-server"
+      - "gestionclient-eureka:registry"
+    environment:
+      - APP_PICTURES_DIRECTORY=/data
+      - SPRING_DATASOURCE_PASSWORD=cyril
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/api"
+    volumes:
+      - "/home/cyril/tmp/pictures:/data"
+  gestionclient-web:
+    image: gestionclient-web
+    links:
+      - "gestionclient-eureka:registry"
+    labels:
+      - "traefik.frontend.rule=PathPrefix:/"
+  gestionclient-eureka:
+    image: gestionclient-registry

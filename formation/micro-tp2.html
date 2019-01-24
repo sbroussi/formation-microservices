@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Jour 2</title>
+    <meta name="description" content="Exercice 1">
+
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="canonical" href="./micro-tp2.html">
+    <link rel="alternate" type="application/rss+xml" title="Leuville Objects Formation" href="./feed.xml"/>
+</head>
+<body>
+
+<header class="masthead">
+    <div class="container">
+        <a href="./" class="masthead-logo">
+            <span class="mega-octicon octicon-package"></span>
+            Leuville Objects Formation
+        </a>
+
+    </div>
+</header>
+
+
+<div class="container">
+
+    <div class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Jour 2</h1>
+            <hr>
+        </header>
+
+        <article class="post-content">
+            <h1 id="exercice-1">Exercice 1</h1>
+
+            <p>Créer une application <em>SpringBoot</em> pour implémenter un service qui expose une API Rest décrite
+                dans le TP précédent.</p>
+
+            <p>Créer un projet <em>Maven</em> en ajoutant dans le <code>pom.xml</code></p>
+
+            <pre><code class="language-xml">    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;1.5.13.RELEASE&lt;/version&gt;
+    &lt;/parent&gt;
+
+    &lt;properties&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;
+        &lt;java.version&gt;1.8&lt;/java.version&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+</code></pre>
+
+            <p>Créer une classe <code>ClientApiApplication</code> comme point de départ de l’application.</p>
+
+            <p>Ajouter cette dépendance pour que l’application se recharge automatiquement avec une modification</p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+        	&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        	&lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <h1 id="exercice-2">Exercice 2</h1>
+
+            <p>Le but de cet exercice est d’accéder aux données de la table <code>client</code> présentée dans le TP
+                prédédent.</p>
+
+            <p>Pour cela, ajouter les dépendances suivantes</p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <p>Créer une interface héritant de l’interface <code>JpaRepository</code></p>
+
+            <p>Annoter la classe <code>Client</code> avec les annotations suivantes : <code>@Entity</code>,
+                <code>@Id</code>, <code>@Column</code>…</p>
+
+            <p>Créer un fichier <code>application.yaml</code> dans le répertoire <code>src/main/resources</code>
+                contenant</p>
+
+            <pre><code class="language-xml">spring:
+    application:
+      name: gestion-client-api
+    datasource:
+        url: jdbc:mysql://localhost:3306/gestionclient?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false
+        username: root
+        password: root
+    jpa:
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database: MYSQL
+        show-sql: true
+</code></pre>
+
+            <p>Pour gérer l’évolution du schéma de la base de données, utiliser la bibliothèque <em>Liquibase</em> <a
+                    href="https://www.liquibase.org/">https://www.liquibase.org/</a> en ajoutant la dépendance suivante
+            </p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.liquibase&lt;/groupId&gt;
+            &lt;artifactId&gt;liquibase-core&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <p>Ajouter les fichiers :
+                - <code>db.changelog-master.yaml</code> (disponible <a href="./assets/db.changelog-master.yaml">ici</a>)
+                dans <code>src/main/resources/db/changelog</code>
+                - <code>clients.csv</code> (disponible <a href="./assets/clients.csv">ici</a>) dans <code>src/main/resources/db</code>
+            </p>
+
+            <h1 id="exercice-3">Exercice 3</h1>
+
+            <p>Pour ajouter une interface web Swagger à l’API, ajouter les dépendances suivantes</p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+            &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;
+            &lt;version&gt;2.9.2&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;io.springfox&lt;/groupId&gt;
+            &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;
+            &lt;version&gt;2.9.2&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <p>et créer la classe suivante</p>
+
+            <pre><code class="language-java">@Configuration
+@EnableSwagger2
+public class SwaggerConfig {
+    @Bean
+    public Docket api() {
+        ApiInfo apiInfo =  ApiInfo.DEFAULT;
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.regex("/api/.*"))
+                .build();
+    }
+}
+</code></pre>
+
+            <p>Accéder à Swagger UI via <a href="http://localhost:8080/swagger-ui.html">http://localhost:8080/swagger-ui.html</a>
+            </p>
+
+            <h1 id="exercice-4">Exercice 4</h1>
+
+            <p>Ajouter à la ressource Rest la possibilité de récupérer la photo du client.</p>
+
+            <p>Les images sont disponibles <a href="./assets/pictures.tar.gz">ici</a>.</p>
+
+            <p>Faire en sorte que le répertoire où se trouvent les images soit configurable comme ceci</p>
+
+            <pre><code>app:
+    pictures:
+        directory: &lt;...&gt;
+</code></pre>
+
+            <p>Pour cela, créer une classe annotée par <code>@ConfigurationProperties</code>.</p>
+
+            <h1 id="exercice-5">Exercice 5</h1>
+
+            <p>Créer un nouveau projet Maven pour implémenter le service proposant une interface Web pour manipuler les
+                données exposées par le service créé dans les exercices précédents.</p>
+
+            <p>Ajouter ces lignes pour utiliser <em>Spring Cloud</em></p>
+
+            <pre><code class="language-xml">    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+                &lt;version&gt;Edgware.SR3&lt;/version&gt;
+                &lt;type&gt;pom&lt;/type&gt;
+                &lt;scope&gt;import&lt;/scope&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+</code></pre>
+
+            <p>Ajouter les dépendances suivantes</p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-thymeleaf&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <!-- Activer _SpringMVC_ par l'annotation `@EnableWebMvc`. -->
+
+            <p>Pour consommer la ressource Rest développée dans le service précédent, utiliser la bibliothèque <code>Feign</code>
+            </p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-feign&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <p>Activer <code>Feign</code> avec l’annotation <code>@EnableFeignClients</code> et développer une interface
+                annotée par <code>@FeignClient</code> qui représente le client Rest.</p>
+
+            <p>Créer une page HTML dans <code>src/main/resources/templates</code> pour afficher un tableau qui liste
+                l’ensemble des clients.</p>
+
+            <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html xmlns:th="http://www.thymeleaf.org"&gt;
+&lt;head&gt;
+&lt;meta charset="ISO-8859-1" /&gt;
+&lt;title&gt;Liste des clients&lt;/title&gt;
+
+&lt;link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous" /&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;table class="table"&gt;
+&lt;thead&gt;
+	&lt;tr&gt;
+		&lt;th&gt;Nom&lt;/th&gt;
+		&lt;th&gt;Prenom&lt;/th&gt;
+		&lt;th&gt;Adresse&lt;/th&gt;
+	&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+	&lt;tr th:each="client : ${clients}"&gt;
+		&lt;td th:text="${client.lastname}"&gt;&lt;/td&gt;
+		&lt;td th:text="${client.firstname}"&gt;&lt;/td&gt;
+		&lt;td th:text="${client.address}"&gt;&lt;/td&gt;
+	&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+            <h1 id="exercice-6">Exercice 6</h1>
+
+            <p>Le but de cet exercice est d’ajouter un annuaire de service.</p>
+
+            <p>Créer un nouveau projet Maven pour le serveur <em>Eureka</em> développé par <em>Netflix</em>. Celui-ci
+                fait office de <em>Service Registry</em>.</p>
+
+            <p>Ajouter ces lignes pour utiliser <em>Spring Cloud</em></p>
+
+            <pre><code class="language-xml">    &lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;
+                &lt;version&gt;Edgware.SR3&lt;/version&gt;
+                &lt;type&gt;pom&lt;/type&gt;
+                &lt;scope&gt;import&lt;/scope&gt;
+            &lt;/dependency&gt;
+            &lt;dependency&gt;
+                &lt;groupId&gt;com.google.guava&lt;/groupId&gt;
+                &lt;artifactId&gt;guava&lt;/artifactId&gt;
+                &lt;version&gt;23.0&lt;/version&gt;
+            &lt;/dependency&gt;
+        &lt;/dependencies&gt;
+    &lt;/dependencyManagement&gt;
+</code></pre>
+
+            <p>Ajouter la dépendence suivante</p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <p>Créer une classe principale annotée de <code>@SpringBootApplication</code> et de <code>@EnableEurekaServer</code>.
+            </p>
+
+            <p>Enfin, ajouter dans le fichier <code>application.yml</code></p>
+
+            <pre><code class="language-bash">eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+</code></pre>
+
+            <p>Pour utiliser ce service, ajouter la dépendance suivante aux 2 autres projets</p>
+
+            <pre><code class="language-xml">        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+</code></pre>
+
+            <p>et ajouter cette configuration</p>
+
+            <pre><code class="language-bash">eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+</code></pre>
+
+
+        </article>
+
+    </div>
+
+
+    <footer class="site-footer">
+        <h2 class="footer-heading">Leuville Objects Formation</h2>
+        <div class="footer-col-wrapper">
+            <div class="footer-col footer-col-1">
+                <ul class="contact-list">
+                    <li>Copyright Leuville 2017.</li>
+                    <li>
+                        <a href="mailto:formation@leuville.com">formation@leuville.com</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>

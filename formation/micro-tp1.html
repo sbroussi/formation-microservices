@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Jour 1</title>
+    <meta name="description" content="Exercice 1">
+
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="canonical" href="./micro-tp1.html">
+    <link rel="alternate" type="application/rss+xml" title="Leuville Objects Formation" href="./feed.xml"/>
+</head>
+<body>
+
+<header class="masthead">
+    <div class="container">
+        <a href="./" class="masthead-logo">
+            <span class="mega-octicon octicon-package"></span>
+            Leuville Objects Formation
+        </a>
+
+    </div>
+</header>
+
+
+<div class="container">
+
+    <div class="post">
+
+        <header class="post-header">
+            <h1 class="post-title">Jour 1</h1>
+            <hr>
+        </header>
+
+        <article class="post-content">
+            <h1 id="exercice-1">Exercice 1</h1>
+
+            <p>Réaliser la documentation <em>Swagger</em> d’une API Rest permetant de manipuler les données de la table
+                <code>client</code> définie par le script suivant</p>
+
+            <pre><code class="language-sql">CREATE TABLE `client` (
+  `id` int(11) NOT NULL,
+  `firstname` varchar(255) NOT NULL,
+  `lastname` varchar(255) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `zip_code` varchar(255) DEFAULT NULL,
+)
+</code></pre>
+            <p><!-- `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_modified_date` datetime DEFAULT CURRENT_TIMESTAMP
+   -->
+                Pour cela, aller sur le site <a href="https://editor.swagger.io/">https://editor.swagger.io/</a></p>
+
+            <!-- # Exercice 2 -->
+
+            <!--
+            Le but de cet exercie est d'implémenter l'API Rest avec _Jersey_.
+
+            Pour cela, créer un projet _Maven_.
+
+            Ajouter les propriétés suivantes
+
+            ```xml
+                <properties>
+                    <maven.compiler.source>1.8</maven.compiler.source>
+                    <maven.compiler.target>1.8</maven.compiler.target>
+                    <jersey.version>2.26</jersey.version>
+                </properties>
+            ```
+
+            et les dépendances suivantes
+
+            ```xml
+                    <dependency>
+                        <groupId>org.glassfish.jersey.core</groupId>
+                        <artifactId>jersey-common</artifactId>
+                        <version>${jersey.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.jersey.inject</groupId>
+                        <artifactId>jersey-hk2</artifactId>
+                        <version>${jersey.version}</version>
+
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.jersey.containers</groupId>
+                        <artifactId>jersey-container-servlet-core</artifactId>
+                        <version>${jersey.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.jersey.containers</groupId>
+                        <artifactId>jersey-container-servlet</artifactId>
+                        <version>${jersey.version}</version>
+                    </dependency>
+            ```
+
+            Créer une classe
+
+            ```java
+            @ApplicationPath("api")
+            public class ClientApplication extends ResourceConfig {
+                public ClientApplication() {
+                    packages("...");
+                }
+            }
+            ```
+
+            -->
+
+            <!-- Créer une application _SpringBoot_ pour implémenter un service qui expose une API Rest décrite dans le TP précédent.
+
+            Créer un projet _Maven_ en ajoutant dans le `pom.xml`
+
+            ```xml
+                <parent>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-parent</artifactId>
+                    <version>1.5.13.RELEASE</version>
+                </parent>
+
+                <properties>
+                    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+                    <java.version>1.8</java.version>
+                </properties>
+
+                <dependencies>
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-web</artifactId>
+                    </dependency>
+                </dependencies>
+            ```
+
+            Créer une classe `ClientApiApplication` comme point de départ de l'application. -->
+
+        </article>
+
+    </div>
+
+
+    <footer class="site-footer">
+        <h2 class="footer-heading">Leuville Objects Formation</h2>
+        <div class="footer-col-wrapper">
+            <div class="footer-col footer-col-1">
+                <ul class="contact-list">
+                    <li>Copyright Leuville 2017.</li>
+                    <li>
+                        <a href="mailto:formation@leuville.com">formation@leuville.com</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+</body>
+</html>

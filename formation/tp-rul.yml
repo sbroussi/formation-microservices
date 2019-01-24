@@ -1,0 +1,14 @@
+version: '2'
+services:
+  rul-jekyll:
+    container_name: rul-jekyll
+    image: jekyll/jekyll:2.5.3
+    volumes:
+      - .:/srv/jekyll
+  rul-nginx:
+    container_name: rul-nginx
+    image: nginx
+    volumes:
+      - ./_site:/usr/share/nginx/html
+    ports:
+      - 80:80
