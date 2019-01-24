@@ -1,5 +1,6 @@
 package lu.ing.api;
 
+import lombok.extern.slf4j.Slf4j;
 import lu.ing.ClientDBRepository;
 import lu.ing.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/clients")
 @CrossOrigin
+@Slf4j
 public class ClientsResource {
 
     @Autowired
@@ -20,6 +22,8 @@ public class ClientsResource {
 
     @GetMapping
     public List<Client> getClients() {
+
+        log.info("call getClients");
         /*
         List<Client> list = new ArrayList<>();
 
@@ -36,6 +40,9 @@ public class ClientsResource {
 
         */
         List<Client> list = clientDBRepository.findAll();
+
+        log.debug("getClients: return {}", list);
+
         return list;
     }
 }

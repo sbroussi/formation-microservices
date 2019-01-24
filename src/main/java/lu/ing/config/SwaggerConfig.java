@@ -9,6 +9,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * Open: http://localhost:8080/swagger-ui.html
+ * <p>
+ * swagger.json: http://localhost:8080/v2/api-docs
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
