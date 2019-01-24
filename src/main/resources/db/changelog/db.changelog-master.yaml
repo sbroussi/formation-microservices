@@ -42,25 +42,25 @@ databaseChangeLog:
                   type: varchar(255)
                   constraints:
                     nullable: true
-  - changeSet:
-      id: 2
-      author: cyril
-      changes:
-        - addColumn:
-            tableName: client
-            columns:
-              - column:
-                  name: created_date
-                  type: datetime
-                  defaultValue: ${now}
-                  constraints:
-                    nullable: false
-              - column:
-                  name: last_modified_date
-                  type: datetime
-                  defaultValue: ${now}
-                  constraints:
-                    nullable: true
+  #  - changeSet:
+  #      id: 2
+  #      author: cyril
+  #      changes:
+  #        - addColumn:
+  #            tableName: client
+  #            columns:
+  #              - column:
+  #                  name: created_date
+  #                  type: datetime
+  #                  defaultValue: ${now}
+  #                  constraints:
+  #                    nullable: false
+  #              - column:
+  #                  name: last_modified_date
+  #                  type: datetime
+  #                  defaultValue: ${now}
+  #                  constraints:
+  #                    nullable: true
   - changeSet:
       id: 3
       author: cyril

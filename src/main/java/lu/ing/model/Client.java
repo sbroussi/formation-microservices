@@ -1,19 +1,15 @@
 package lu.ing.model;
 
 
-import lombok.Builder;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@Getter
-@Setter
-@Builder
+@Data
 @EqualsAndHashCode(of = {"id"})
 @ToString(of = {"id", "firstanme", "lastname"})
 public class Client {

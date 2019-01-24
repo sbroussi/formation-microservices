@@ -19,3 +19,26 @@ MariaDB [(none)]> show databases;
 5 rows in set (0.01 sec)
 
 
+##### after first spring-boot run that loads the data
+
+MariaDB [(none)]> use gestionclient;
+
+
+MariaDB [gestionclient]> select * from client;
++----+-----------+------------+---------------------------------+-------------------+----------+
+| id | firstname | lastname   | address                         | city              | zip_code |
++----+-----------+------------+---------------------------------+-------------------+----------+
+|  1 | Bart      | Simpson    | 9 Avenue de la Grande Armée     | Paris             | 75116    |
+|  2 | Charles   | Burns      | 103 Avenue des Champs-Élysées   | Paris             | 75008    |
+|  3 | Homer     | Simpson    | 98 Avenue Charles de Gaulle     | Neuilly-sur-Seine | 92200    |
+|  4 | Lisa      | Simpson    | 250 Rue de Rivoli               | Paris             | 75001    |
+|  5 | Milhouse  | Van Houten | 6 Rue Royale                    | Paris             | 75008    |
+|  6 | Ned       | Flanders   | 3 Rue Cambon                    | Paris             | 75001    |
+|  7 | Nelson    | Muntz      | 15 Rue des Pyramides            | Paris             | 75001    |
+|  8 | Ralph     | Wiggun     | 17 Boulevard des Capucines      | Paris             | 75009    |
+|  9 | Seymour   | Skinner    | 21 Boulevard Haussmann          | Paris             | 75009    |
+| 10 | Waylon    | Smithers   | 8 Boulevard Montmartre          | Paris             | 75009    |
++----+-----------+------------+---------------------------------+-------------------+----------+
+
+
+
