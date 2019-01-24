@@ -9,3 +9,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     database: MYSQL
     show-sql: true
+
+# pictures
+app:
+  pictures:
+    directory: /home/zzadmin/IdeaProjects/stef/pictures
