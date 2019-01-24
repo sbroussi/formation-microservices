@@ -1,3 +1,9 @@
+spring:
+  application:
+    # name exposed in Eureka registry
+    name: gestion-client-web
+
+
 server:
   port: 8081
 
@@ -40,4 +46,16 @@ info:
 app:
   services:
     clients:
-      url: http://localhost:8080
+      # url: http://localhost:8080
+      # name to lookup in Eureka registry:
+      # MUST be the same as defined in API project: entry 'spring.application.name'
+      name: gestion-client-api
+
+# Eureka registry
+eureka:
+  instance:
+    # for docker: use IP address, not DNS name  (proxy settings: bypass 10.0.0.0/8)
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

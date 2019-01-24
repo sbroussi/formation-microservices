@@ -1,0 +1,12 @@
+# by convention, port 8761
+server:
+  port: 8761
+
+# ne pas lancer le client
+# uniquement lancer le serveur d'annuaire
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

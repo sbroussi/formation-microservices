@@ -1,5 +1,9 @@
 
 
+HTTP proxy (for all protocols): vdluuxprx01.lu.europe.intranet:8080, bypass: 10.0.0.0/8
+- IntelliJ
+- Firefox
+
 $ mysql -u root
 
 MariaDB [(none)]> create database gestionclient;

@@ -11,20 +11,6 @@
     </parent>
     <artifactId>web</artifactId>
 
-    <dependencyManagement>
-        <dependencies>
-
-            <!-- import 'org.springframework.cloud' pour pouvoir importer la bonne version de Feign: spring-cloud-starter-feign -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Edgware.SR3</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
 
     <dependencies>
         <dependency>
@@ -49,6 +35,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <!-- Eureka API registry -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
 
         <!-- Pour consommer la ressource Rest développée dans le service précédent, utiliser la bibliothèque Feign -->

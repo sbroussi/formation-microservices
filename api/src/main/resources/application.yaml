@@ -14,3 +14,12 @@ spring:
 app:
   pictures:
     directory: /home/zzadmin/IdeaProjects/stef/pictures
+
+# Eureka registry
+eureka:
+  instance:
+    # for docker: use IP address, not DNS name  (proxy settings: bypass 10.0.0.0/8)
+    preferIpAddress: true
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
