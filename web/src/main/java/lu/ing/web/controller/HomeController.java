@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,7 +28,9 @@ public class HomeController {
         // populate MVC model
         model.addAttribute("clients", clients);
 
-        // call 'thymeleaf' template: resources/templates/index.html
-        return "index";
+        model.addAttribute("now", LocalDateTime.now().toString());
+
+        // call 'thymeleaf' template: resources/templates/list_of_clients.html
+        return "list_of_clients";
     }
 }
