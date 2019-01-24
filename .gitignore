@@ -1,0 +1,14 @@
+# MacOS #
+.DS_Store
+
+# Maven #
+target
+
+# IntelliJ IDEA #
+.idea
+*.iml
+
+*.pid
+logs/
+tomcat/
+work/

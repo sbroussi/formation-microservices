@@ -1,0 +1,47 @@
+swagger: '2.0'
+info:
+  description: My great API
+  version: 1.0.0
+  title: My great API
+host: 'localhost:8080'
+basePath: /api
+schemes:
+  - http
+paths:
+  /clients:
+    get:
+      summary: Returns the list of clients
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Client'
+        '400':
+          description: Invalid status value
+definitions:
+  String255:
+    type: string
+    maxLength: 255
+    example: a string
+  Client:
+    type: object
+    description: A Client
+    properties:
+      id:
+        type: integer
+        format: int64
+        example: 12345678
+      firstname:
+        $ref: '#/definitions/String255'
+      lastname:
+        $ref: '#/definitions/String255'
+      address:
+        $ref: '#/definitions/String255'
+      city:
+        $ref: '#/definitions/String255'
+      zip_code:
+        $ref: '#/definitions/String255'

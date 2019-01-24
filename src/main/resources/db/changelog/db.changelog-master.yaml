@@ -1,0 +1,71 @@
+databaseChangeLog:
+  - property:
+      name: now
+      value: now()
+      dbms: mysql
+  - changeSet:
+      id: 1
+      author: cyril
+      changes:
+        - createTable:
+            tableName: client
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: firstname
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: lastname
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: city
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: zip_code
+                  type: varchar(255)
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: 2
+      author: cyril
+      changes:
+        - addColumn:
+            tableName: client
+            columns:
+              - column:
+                  name: created_date
+                  type: datetime
+                  defaultValue: ${now}
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_modified_date
+                  type: datetime
+                  defaultValue: ${now}
+                  constraints:
+                    nullable: true
+  - changeSet:
+      id: 3
+      author: cyril
+      changes:
+        - loadData:
+            tableName: client
+            file: /db/clients.csv
+            separator: ";"

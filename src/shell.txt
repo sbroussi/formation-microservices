@@ -1,0 +1,21 @@
+
+
+$ mysql -u root
+
+MariaDB [(none)]> create database gestionclient;
+Query OK, 1 row affected (0.00 sec)
+
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| gestionclient      |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+5 rows in set (0.01 sec)
+
+
