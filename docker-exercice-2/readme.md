@@ -23,10 +23,16 @@ afe07151202d: Loading layer [==================================================>
 03f525e0ee30: Loading layer [==================================================>]  2.56 kB/2.56 kB
 Loaded image: phpmyadmin/phpmyadmin:latest
 
-
-
-# Start a mysql server instance; create DB  (-d detached)
+# ------------- start mysql --- 1
+# without mapping: will create '/var/lib/mysql' on local host
 $ docker run --name gc-mysql -d -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=gestionclient mysql:latest
+
+# ------------- start mysql --- 2
+# Start a mysql server instance; create DB  (-d detached, map port 3306 to local 3307, map volume)
+# create file system on host (l'image précise: VOLUME /var/lib/mysql et EXPOSE 3306)
+mkdir /home/zzadmin/lib_mysql
+chmod 777 /home/zzadmin/lib_mysql
+$ docker run --name gc-mysql -d -p 3307:3306 -v /home/zzadmin/lib_mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=gestionclient mysql:latest
 
 # on voit le port 3306
 $ docker ps
@@ -66,6 +72,10 @@ Bye
 
 
 -------------------------- visualisation docker-engine: portainer
+https://www.portainer.io/
+Making Docker Management Easy.
+Build and manage your Docker environments with ease today.
+
 
 [zzadmin@vdluuxtst05 docker]$ docker load -i '/formation/portainer.tar.gz'
 dd4969f97241: Loading layer [==================================================>]   278 kB/278 kB
