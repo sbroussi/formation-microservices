@@ -7,8 +7,6 @@ app:
     directory: /ENV_PICTURES_FOLDER
 
 eureka:
-  instance:
-    preferIpAddress: true
   client:
     serviceUrl:
       defaultZone: http://ENVEUREKASERVER:8761/eureka/
