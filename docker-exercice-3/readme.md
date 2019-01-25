@@ -52,7 +52,7 @@ $ docker run -it --name gc-api -p 8080:8080  \
   -e SPRING_DATASOURCE_PASSWORD=my-secret-pw   \
   -v /home/zzadmin/IdeaProjects/stef/pictures:/ENV_PICTURES_FOLDER   \
   --link gc-mysql:ENV_MYSQL_SERVER   \
-  --link gc-registry:ENV_EUREKA_SERVER \
+  --link gc-registry:ENVEUREKASERVER \
   api
 
 $ docker logs -f a0fb9daae1c5cf
