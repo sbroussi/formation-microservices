@@ -4,6 +4,18 @@ HTTP proxy (for all protocols): vdluuxprx01.lu.europe.intranet:8080, bypass: 10.
 - IntelliJ
 - Firefox
 
+
+
+-----------------------------
+
+https://github.com/sbroussi/formation-microservices.git
+
+git config --global credential.helper store
+git push origin master --force
+
+
+-----------------------------
+
 $ mysql -u root
 
 MariaDB [(none)]> create database gestionclient;
