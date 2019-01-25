@@ -22,4 +22,6 @@ $ docker logs -f a0fb9daae1c5cf
 2019-01-25 13:27:01.961  INFO 1 --- [           main] l.i.e.EurekaServerApplication            : Started EurekaServerApplication in 9.21 seconds (JVM running for 9.911)
 
 
+# open browser UI
+http://localhost:8761
 

@@ -44,6 +44,10 @@
 
                 # run
                 $ docker run -p 8761:8761 eureka-registry
+
+                # open browser UI
+                http://localhost:8761
+
                 -->
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
