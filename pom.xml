@@ -52,6 +52,7 @@
         <module>api-graphql</module>
         <module>web</module>
         <module>eureka-registry</module>
+        <module>docker-exercice-1</module>
     </modules>
 
 </project>
