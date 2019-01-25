@@ -1,0 +1,16 @@
+
+type query {
+    clients : [Client]
+
+}
+
+type Client {
+    id: Long
+    firstname: String
+    lastname: String
+    address: String
+    city: String
+    zipCode: String
+}
+
+

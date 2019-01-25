@@ -13,6 +13,7 @@
               <option value="clean" />
               <option value="spring-boot:run" />
               <option value="-DskipTests" />
+              <option value="-Xmx200m" />
             </list>
           </option>
           <option name="pomFileName" />

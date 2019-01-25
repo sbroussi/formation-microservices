@@ -49,6 +49,7 @@
 
     <modules>
         <module>api</module>
+        <module>api-graphql</module>
         <module>web</module>
         <module>eureka-registry</module>
     </modules>

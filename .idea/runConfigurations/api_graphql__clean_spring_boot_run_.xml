@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="api [clean,spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven">
+  <configuration default="false" name="api-graphql [clean,spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven">
     <MavenSettings>
       <option name="myGeneralSettings" />
       <option name="myRunnerSettings" />
@@ -21,7 +21,7 @@
             <map />
           </option>
           <option name="resolveToWorkspace" value="false" />
-          <option name="workingDirPath" value="$PROJECT_DIR$/api" />
+          <option name="workingDirPath" value="$PROJECT_DIR$/api-graphql" />
         </MavenRunnerParameters>
       </option>
     </MavenSettings>
