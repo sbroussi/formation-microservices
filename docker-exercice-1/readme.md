@@ -21,7 +21,7 @@ $ docker run -e HEARTBEATSTEP='2' heartbeat
 - 099ea28563a5 - (09:51:14)
 
 # Dans une autre console, exécuter la commande
-$ docker ps
+$ docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
 099ea28563a5        heartbeat           "./heartbeat.sh"    About a minute ago   Up About a minute                       stoic_volhard
 
@@ -39,3 +39,34 @@ root         51     36  0 09:52 ?        00:00:00 ps -ef
 # to stop process
 $ docker stop <CONTAINER ID>
 $ docker stop 099ea28563a5
+
+# delete all running containers (and wait 2 seconds)
+docker stop --time 2 $(docker ps -q)
+
+# delete all containers
+docker rm -f $(docker ps -a -q)
+
+# Size on disk after 20 runs...
+$ du -hs /var/lib/docker/*
+512K	/var/lib/docker/containers
+472K	/var/lib/docker/image
+44K	/var/lib/docker/network
+90M	/var/lib/docker/overlay2
+0	/var/lib/docker/plugins
+0	/var/lib/docker/swarm
+0	/var/lib/docker/tmp
+0	/var/lib/docker/trust
+24K	/var/lib/docker/volumes
+
+
+# lauunch a 'detached' container
+$ docker run -dt -e HEARTBEATSTEP='2' heartbeat
+f15214aea533ee5dc2bb59d3069db530455df0df878eb00b1a1b799c17b9fd54
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES
+f15214aea533        heartbeat           "./heartbeat.sh de..."   About a minute ago   Up About a minute                       elated_goodall
+# tail -f du log console d'un process detached
+$ docker logs -f f15214aea533
+ default - f15214aea533 - (10:41:28)
+ default - f15214aea533 - (10:41:30)
+ default - f15214aea533 - (10:41:32)
