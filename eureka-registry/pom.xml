@@ -41,9 +41,8 @@
                 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
                 eureka-registry         latest              45c2a37d81b7        14 seconds ago      122 MB
 
-
                 # run
-                $ docker run -p 8761:8761 eureka-registry
+                $ docker run - -name gc-registry -p 8761:8761 -d eureka-registry
 
                 # open browser UI
                 http://localhost:8761

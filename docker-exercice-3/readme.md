@@ -1,4 +1,5 @@
 
+============================== REGISTRY
 # build image from Maven
 cd eureka-registry
 mvn clean install
@@ -10,7 +11,7 @@ REPOSITORY              TAG                 IMAGE ID            CREATED         
 eureka-registry         latest              45c2a37d81b7        14 seconds ago      122 MB
 
 # run
-$ docker run -p 8761:8761 -d eureka-registry
+$ docker run --name gc-registry -p 8761:8761 -d eureka-registry
 a0fb9daae1c5cf210e2c86747a0eec120f26cb1ea9c56a66a138465e6ef3ef01
 
 
@@ -25,3 +26,36 @@ $ docker logs -f a0fb9daae1c5cf
 # open browser UI
 http://localhost:8761
 
+============================== API
+
+# build image from Maven
+cd api
+mvn clean install
+
+# This will create this image:
+
+$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+api                     latest              c851da26749a        About a minute ago   142 MB
+
+# run: 'link gc' va mapper des noms de hosts
+# les noms sont dans la colonne de droite NAMES:
+# - gc-registry
+# - gc-mysql
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+a3a1a070d57d        eureka-registry     "java -jar app.jar..."   3 seconds ago       Up 2 seconds        0.0.0.0:8761->8761/tcp   gc-registry
+2b50ca1b86a8        mysql:latest        "docker-entrypoint..."   About an hour ago   Up About an hour    3306/tcp                 gc-mysql
+
+$ docker run -it --name gc-api -p 8080:8080  \
+  -e ENV_SPRING_PROFILE=prod   \
+  -e SPRING_DATASOURCE_PASSWORD=my-secret-pw   \
+  -v /home/zzadmin/IdeaProjects/stef/pictures:/ENV_PICTURES_FOLDER   \
+  --link gc-mysql:ENV_MYSQL_SERVER   \
+  --link gc-registry:ENV_EUREKA_SERVER \
+  api
+
+$ docker logs -f a0fb9daae1c5cf
+
+# open browser UI
+http://localhost:8080/api/clients

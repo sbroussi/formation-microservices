@@ -65,4 +65,59 @@
         </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <!--
+                This will create this image:
+
+                $ docker images
+                REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+                api                     1.0-SNAPSHOT        430878f9ce03        11 seconds ago       142 MB
+                api                     latest              430878f9ce03        11 seconds ago       142 MB
+
+
+                # run
+                $ docker run - - name gc-api -p 8080:8080 -d api
+
+                # open browser UI
+                http://localhost:8080
+
+                -->
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <imageName>${project.artifactId}</imageName>
+                    <dockerDirectory>${basedir}/src/main/docker</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <includes>
+                                <include>${project.build.finalName}.jar</include>
+                            </includes>
+                        </resource>
+                    </resources>
+                    <imageTags>
+                        <imageTag>latest</imageTag>
+                        <imageTag>${project.version}</imageTag>
+                    </imageTags>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

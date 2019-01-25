@@ -27,7 +27,7 @@ Loaded image: phpmyadmin/phpmyadmin:latest
 # without mapping: will create '/var/lib/mysql' on local host
 $ docker run --name gc-mysql -d -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=gestionclient mysql:latest
 
-# ------------- start mysql --- 2
+# ------------- start mysql --- 2 --> probleme mapping !!!
 # Start a mysql server instance; create DB  (-d detached, map port 3306 to local 3307, map volume)
 # create file system on host (l'image précise: VOLUME /var/lib/mysql et EXPOSE 3306)
 mkdir /home/zzadmin/lib_mysql
