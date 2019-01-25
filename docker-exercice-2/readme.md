@@ -28,6 +28,7 @@ Loaded image: phpmyadmin/phpmyadmin:latest
 # Start a mysql server instance; create DB  (-d detached)
 $ docker run --name gc-mysql -d -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=gestionclient mysql:latest
 
+# on voit le port 3306
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 71e7f6d96ed0        mysql:latest        "docker-entrypoint..."   10 seconds ago      Up 9 seconds        3306/tcp            gc-mysql
@@ -47,6 +48,38 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql>
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| gestionclient      |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
 
+mysql> exit
+Bye
+
+
+
+-------------------------- visualisation docker-engine: portainer
+
+[zzadmin@vdluuxtst05 docker]$ docker load -i '/formation/portainer.tar.gz'
+dd4969f97241: Loading layer [==================================================>]   278 kB/278 kB
+6f02e36bdb71: Loading layer [==================================================>]    72 MB/72 MB
+Loaded image: portainer/portainer:latest
+
+# allow read file: /var/run/docker.sock
+$ sudo chmod o+r /var/run/docker.sock
+$ ls -la /var/run/docker.sock
+srw-rw-r--. 1 root dockerroot 0 Jan 24 16:56 /var/run/docker.sock
+
+# run with mapping: volume and port
+$ docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer [--no-auth]
+
+# open browser UI > Local > ignore docker.sock message > click on Connect
+http://localhost:9000
 
