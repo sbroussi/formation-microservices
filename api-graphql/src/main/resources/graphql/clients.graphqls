@@ -1,10 +1,8 @@
-
-type query {
+type Query{
     clients : [Client]
-
 }
 
-type Client {
+type Client{
     id: Long
     firstname: String
     lastname: String
@@ -12,5 +10,3 @@ type Client {
     city: String
     zipCode: String
 }
-
-

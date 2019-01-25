@@ -1,25 +1,20 @@
-spring:
-  application:
-    # name exposed in Eureka registry
-    name: gestion-client-graphql
-
 server:
   port: 8082
 
-# Eureka registry
+spring:
+  application:
+    name: gc-graphql
+
 eureka:
   instance:
-    # for docker: use IP address, not DNS name  (proxy settings: bypass 10.0.0.0/8)
     preferIpAddress: true
   client:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
-# graphql
-graphql:
-  servlet:
-    mapping: /graphql
-    enabled: true
-    corsEnabled: true
-    # if you want to @ExceptionHandler annotation for custom GraphQLErrors
-    exception-handlers-enabled: true
+
+app:
+  services:
+    clients:
+      #      url: http://localhost:8080
+      name: gestion-client-api
