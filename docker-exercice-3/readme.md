@@ -36,7 +36,8 @@ mvn clean install
 
 $ docker images
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
-api                     latest              c851da26749a        About a minute ago   142 MB
+api                     1.0-SNAPSHOT        adb944472bf9        5 minutes ago       142 MB
+api                     latest              adb944472bf9        5 minutes ago       142 MB
 
 # run: 'link gc' va mapper des noms de hosts
 # les noms sont dans la colonne de droite NAMES:
@@ -47,7 +48,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 a3a1a070d57d        eureka-registry     "java -jar app.jar..."   3 seconds ago       Up 2 seconds        0.0.0.0:8761->8761/tcp   gc-registry
 2b50ca1b86a8        mysql:latest        "docker-entrypoint..."   About an hour ago   Up About an hour    3306/tcp                 gc-mysql
 
-$ docker run -it --name gc-api -p 8080:8080  \
+$ docker run -d --name gc-api -p 8080:8080  \
   -e ENV_SPRING_PROFILE=prod   \
   -e SPRING_DATASOURCE_PASSWORD=my-secret-pw   \
   -v /home/zzadmin/IdeaProjects/stef/pictures:/ENV_PICTURES_FOLDER   \
@@ -59,3 +60,35 @@ $ docker logs -f a0fb9daae1c5cf
 
 # open browser UI
 http://localhost:8080/api/clients
+http://localhost:8080/swagger-ui.html
+
+============================== WEB
+
+# build image from Maven
+cd web
+mvn clean install
+
+# This will create this image:
+
+$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+web                     1.0-SNAPSHOT        25fad4e28049        10 seconds ago      127 MB
+web                     latest              25fad4e28049        10 seconds ago      127 MB
+
+# run: 'link gc' va mapper des noms de hosts
+# les noms sont dans la colonne de droite NAMES:
+# - gc-registry
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+a3a1a070d57d        eureka-registry     "java -jar app.jar..."   3 seconds ago       Up 2 seconds        0.0.0.0:8761->8761/tcp   gc-registry
+
+$ docker run -d --name gc-web -p 8081:8080  \
+  -e ENV_SPRING_PROFILE=prod   \
+  --link gc-registry:ENVEUREKASERVER \
+  web
+
+$ docker logs -f a0fb9daae1c5cf
+
+# open browser UI
+http://localhost:8081/
+
