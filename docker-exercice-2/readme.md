@@ -1,6 +1,11 @@
 
-cd docker-exercice-2
+====================
+====================
+==================== Lancer MYSQL dans un docker (pour le DEV, bad practice en prod) 
+====================
+====================
 
+cd docker-exercice-2
 
 [zzadmin@vdluuxtst05 docker]$ docker load -i '/formation/tp-rul-mysql.tar.gz'
 2f71b45e4e25: Loading layer [==================================================>]   131 MB/131 MB

@@ -1,4 +1,10 @@
 
+====================
+====================
+==================== Exercice 1: lancher un 'heartbeat' en passant une variable d'environnment
+====================
+====================
+
 cd docker-exercice-1
 
 # Dans le répertoire où se trouvent les fichiers, executer la commande suivante pour créer l’image

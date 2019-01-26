@@ -1,0 +1,435 @@
+
+# Compilation de toutes les notes
+
+- manual_setup_env.txt
+- docker-exercice-1/readme.md
+- docker-exercice-2/readme.md
+- docker-exercice-3/readme.md
+- docker-exercice-4/readme.md
+
+
+## manual_setup_env.txt
+
+
+HTTP proxy (for all protocols): vdluuxprx01.lu.europe.intranet:8080, bypass: 10.0.0.0/8
+- IntelliJ
+- Firefox
+
+
+
+-----------------------------
+
+https://github.com/sbroussi/formation-microservices.git
+
+git config --global credential.helper store
+git push origin master --force
+
+
+-----------------------------
+
+$ mysql -u root
+
+MariaDB [(none)]> create database gestionclient;
+Query OK, 1 row affected (0.00 sec)
+
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| gestionclient      |
+| mysql              |
+| performance_schema |
+| test               |
++--------------------+
+5 rows in set (0.01 sec)
+
+
+##### after first spring-boot run that loads the data
+
+MariaDB [(none)]> use gestionclient;
+
+
+MariaDB [gestionclient]> select * from client;
++----+-----------+------------+---------------------------------+-------------------+----------+
+| id | firstname | lastname   | address                         | city              | zip_code |
++----+-----------+------------+---------------------------------+-------------------+----------+
+|  1 | Bart      | Simpson    | 9 Avenue de la Grande Armée     | Paris             | 75116    |
+|  2 | Charles   | Burns      | 103 Avenue des Champs-Élysées   | Paris             | 75008    |
+|  3 | Homer     | Simpson    | 98 Avenue Charles de Gaulle     | Neuilly-sur-Seine | 92200    |
+|  4 | Lisa      | Simpson    | 250 Rue de Rivoli               | Paris             | 75001    |
+|  5 | Milhouse  | Van Houten | 6 Rue Royale                    | Paris             | 75008    |
+|  6 | Ned       | Flanders   | 3 Rue Cambon                    | Paris             | 75001    |
+|  7 | Nelson    | Muntz      | 15 Rue des Pyramides            | Paris             | 75001    |
+|  8 | Ralph     | Wiggun     | 17 Boulevard des Capucines      | Paris             | 75009    |
+|  9 | Seymour   | Skinner    | 21 Boulevard Haussmann          | Paris             | 75009    |
+| 10 | Waylon    | Smithers   | 8 Boulevard Montmartre          | Paris             | 75009    |
++----+-----------+------------+---------------------------------+-------------------+----------+
+
+
+
+
+
+## docker-exercice-1/readme.md
+
+
+====================
+====================
+==================== Exercice 1: lancher un 'heartbeat' en passant une variable d'environnment
+====================
+====================
+
+cd docker-exercice-1
+
+# Dans le répertoire où se trouvent les fichiers, executer la commande suivante pour créer l’image
+
+$ docker build -t heartbeat .
+
+# Il est maintenant possible de créer un conteneur
+
+# par dêfaut, variable env. toutes les 5 secondes
+$ docker run heartbeat
+- 8dacf0302b8c - (09:44:20)
+- 8dacf0302b8c - (09:44:25)
+- 8dacf0302b8c - (09:44:30)
+- 8dacf0302b8c - (09:44:35)
+
+# on peut changer la variable env.
+$ docker run -e HEARTBEATSTEP='2' heartbeat
+- 099ea28563a5 - (09:51:10)
+- 099ea28563a5 - (09:51:12)
+- 099ea28563a5 - (09:51:14)
+
+# Dans une autre console, exécuter la commande
+$ docker ps -a
+CONTAINER ID        IMAGE               COMMAND             CREATED              STATUS              PORTS               NAMES
+099ea28563a5        heartbeat           "./heartbeat.sh"    About a minute ago   Up About a minute                       stoic_volhard
+
+# Copier le CONTAINER ID du conteneur et exécuter la commande suivante
+
+$ docker exec -it <CONTAINER ID> bash
+$ docker exec -it 099ea28563a5 bash
+root@099ea28563a5:/# ps -ef
+UID         PID   PPID  C STIME TTY          TIME CMD
+root          1      0  0 09:52 ?        00:00:00 /bin/bash ./heartbeat.sh
+root         36      0  0 09:52 ?        00:00:00 bash
+root         50      1  0 09:52 ?        00:00:00 sleep 2
+root         51     36  0 09:52 ?        00:00:00 ps -ef
+
+# to stop process
+$ docker stop <CONTAINER ID>
+$ docker stop 099ea28563a5
+
+# delete all running containers (and wait 2 seconds)
+docker stop --time 2 $(docker ps -q)
+
+# delete all containers
+docker rm -f $(docker ps -a -q)
+
+# Size on disk after 20 runs...
+$ du -hs /var/lib/docker/*
+512K	/var/lib/docker/containers
+472K	/var/lib/docker/image
+44K	/var/lib/docker/network
+90M	/var/lib/docker/overlay2
+0	/var/lib/docker/plugins
+0	/var/lib/docker/swarm
+0	/var/lib/docker/tmp
+0	/var/lib/docker/trust
+24K	/var/lib/docker/volumes
+
+
+# lauunch a 'detached' container
+$ docker run -dt -e HEARTBEATSTEP='2' heartbeat
+f15214aea533ee5dc2bb59d3069db530455df0df878eb00b1a1b799c17b9fd54
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS               NAMES
+f15214aea533        heartbeat           "./heartbeat.sh de..."   About a minute ago   Up About a minute                       elated_goodall
+# tail -f du log console d'un process detached
+$ docker logs -f f15214aea533
+ default - f15214aea533 - (10:41:28)
+ default - f15214aea533 - (10:41:30)
+ default - f15214aea533 - (10:41:32)
+
+
+## docker-exercice-2/readme.md
+
+
+====================
+====================
+==================== Lancer MYSQL dans un docker (pour le DEV, bad practice en prod)
+====================
+====================
+
+cd docker-exercice-2
+
+[zzadmin@vdluuxtst05 docker]$ docker load -i '/formation/tp-rul-mysql.tar.gz'
+2f71b45e4e25: Loading layer [==================================================>]   131 MB/131 MB
+b9251eda2725: Loading layer [==================================================>] 344.6 kB/344.6 kB
+2830e43bb292: Loading layer [==================================================>] 4.322 MB/4.322 MB
+e11922f9eb52: Loading layer [==================================================>] 1.536 kB/1.536 kB
+81b027c57df4: Loading layer [==================================================>] 33.83 MB/33.83 MB
+454bc9d5e761: Loading layer [==================================================>] 25.09 kB/25.09 kB
+2a38a8bfc4ea: Loading layer [==================================================>] 3.584 kB/3.584 kB
+8b556b9fcced: Loading layer [==================================================>] 222.3 MB/222.3 MB
+e6814f2c816d: Loading layer [==================================================>] 4.096 kB/4.096 kB
+4070d7e42759: Loading layer [==================================================>] 6.656 kB/6.656 kB
+8cbbd930eccd: Loading layer [==================================================>] 1.536 kB/1.536 kB
+Loaded image: mysql:latest
+4fe15f8d0ae6: Loading layer [==================================================>] 5.046 MB/5.046 MB
+880da5e0fb56: Loading layer [==================================================>] 19.52 MB/19.52 MB
+afe07151202d: Loading layer [==================================================>] 24.58 kB/24.58 kB
+278d3855ff30: Loading layer [==================================================>] 36.79 MB/36.79 MB
+770d30a4404b: Loading layer [==================================================>] 4.096 kB/4.096 kB
+03f525e0ee30: Loading layer [==================================================>]  2.56 kB/2.56 kB
+Loaded image: phpmyadmin/phpmyadmin:latest
+
+# ------------- start mysql --- 1
+# without mapping: will create '/var/lib/mysql' on local host
+$ docker run --name gc-mysql -d -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=gestionclient mysql:latest
+
+# ------------- start mysql --- 2 --> probleme mapping !!!
+# Start a mysql server instance; create DB  (-d detached, map port 3306 to local 3307, map volume)
+# create file system on host (l'image précise: VOLUME /var/lib/mysql et EXPOSE 3306)
+mkdir /home/zzadmin/lib_mysql
+chmod 777 /home/zzadmin/lib_mysql
+$ docker run --name gc-mysql -d -p 3307:3306 -v /home/zzadmin/lib_mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -e MYSQL_DATABASE=gestionclient mysql:latest
+
+# on voit le port 3306
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+71e7f6d96ed0        mysql:latest        "docker-entrypoint..."   10 seconds ago      Up 9 seconds        3306/tcp            gc-mysql
+
+# check that the DB is started: run command line : "mysql -pmy-secret-pw"
+$ docker exec -it gc-mysql mysql -pmy-secret-pw
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.7.14 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2016, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| gestionclient      |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+
+
+
+-------------------------- visualisation docker-engine: portainer
+https://www.portainer.io/
+Making Docker Management Easy.
+Build and manage your Docker environments with ease today.
+
+
+[zzadmin@vdluuxtst05 docker]$ docker load -i '/formation/portainer.tar.gz'
+dd4969f97241: Loading layer [==================================================>]   278 kB/278 kB
+6f02e36bdb71: Loading layer [==================================================>]    72 MB/72 MB
+Loaded image: portainer/portainer:latest
+
+# allow read file: /var/run/docker.sock
+$ sudo chmod o+r /var/run/docker.sock
+$ ls -la /var/run/docker.sock
+srw-rw-r--. 1 root dockerroot 0 Jan 24 16:56 /var/run/docker.sock
+
+# run with mapping: volume and port
+$ docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer [--no-auth]
+
+# open browser UI > Local > ignore docker.sock message > click on Connect
+http://localhost:9000
+
+
+
+## docker-exercice-3/readme.md
+
+
+====================
+====================
+==================== Lancer un projet spring-boot java en docker: eureka-registry
+====================
+====================
+
+============================== REGISTRY
+# build image from Maven
+cd eureka-registry
+mvn clean install
+
+# This will create this image:
+
+$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+eureka-registry         latest              45c2a37d81b7        14 seconds ago      122 MB
+
+# run
+$ docker run --name gc-registry -p 8761:8761 -d eureka-registry
+a0fb9daae1c5cf210e2c86747a0eec120f26cb1ea9c56a66a138465e6ef3ef01
+
+
+$ docker logs -f a0fb9daae1c5cf
+2019-01-25 13:27:01.879  INFO 1 --- [      Thread-11] c.n.e.r.PeerAwareInstanceRegistryImpl    : Changing status to UP
+2019-01-25 13:27:01.906  INFO 1 --- [      Thread-11] e.s.EurekaServerInitializerConfiguration : Started Eureka Server
+2019-01-25 13:27:01.932  INFO 1 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8761 (http)
+2019-01-25 13:27:01.932  INFO 1 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8761
+2019-01-25 13:27:01.961  INFO 1 --- [           main] l.i.e.EurekaServerApplication            : Started EurekaServerApplication in 9.21 seconds (JVM running for 9.911)
+
+
+# open browser UI
+http://localhost:8761
+
+====================
+====================
+==================== Lancer un projet spring-boot java en docker: API
+====================
+====================
+
+============================== API
+
+# build image from Maven
+cd api
+mvn clean install
+
+# This will create this image:
+
+$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+api                     1.0-SNAPSHOT        adb944472bf9        5 minutes ago       142 MB
+api                     latest              adb944472bf9        5 minutes ago       142 MB
+
+# run: 'link gc' va mapper des noms de hosts
+# les noms sont dans la colonne de droite NAMES:
+# - gc-registry
+# - gc-mysql
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+a3a1a070d57d        eureka-registry     "java -jar app.jar..."   3 seconds ago       Up 2 seconds        0.0.0.0:8761->8761/tcp   gc-registry
+2b50ca1b86a8        mysql:latest        "docker-entrypoint..."   About an hour ago   Up About an hour    3306/tcp                 gc-mysql
+
+$ docker run -d --name gc-api -p 8080:8080  \
+  -e ENV_SPRING_PROFILE=prod   \
+  -e SPRING_DATASOURCE_PASSWORD=my-secret-pw   \
+  -v /home/zzadmin/IdeaProjects/stef/pictures:/ENV_PICTURES_FOLDER   \
+  --link gc-mysql:ENV_MYSQL_SERVER   \
+  --link gc-registry:ENVEUREKASERVER \
+  api
+
+$ docker logs -f a0fb9daae1c5cf
+
+# open browser UI
+http://localhost:8080/api/clients
+http://localhost:8080/swagger-ui.html
+
+====================
+====================
+==================== Lancer un projet spring-boot java en docker: WEB front-end
+====================
+====================
+
+============================== WEB
+
+# build image from Maven
+cd web
+mvn clean install
+
+# This will create this image:
+
+$ docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+web                     1.0-SNAPSHOT        25fad4e28049        10 seconds ago      127 MB
+web                     latest              25fad4e28049        10 seconds ago      127 MB
+
+# run: 'link gc' va mapper des noms de hosts
+# les noms sont dans la colonne de droite NAMES:
+# - gc-registry
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
+a3a1a070d57d        eureka-registry     "java -jar app.jar..."   3 seconds ago       Up 2 seconds        0.0.0.0:8761->8761/tcp   gc-registry
+
+$ docker run -d --name gc-web -p 8081:8080  \
+  -e ENV_SPRING_PROFILE=prod   \
+  --link gc-registry:ENVEUREKASERVER \
+  web
+
+$ docker logs -f a0fb9daae1c5cf
+
+# open browser UI
+http://localhost:8081/
+
+
+## docker-exercice-4/readme.md
+
+
+====================
+====================
+==================== Lancer un 'Cloud Native Edge Router' en docker: traefik
+====================
+====================
+
+========================= traefik
+https://traefik.io/
+The Cloud Native Edge Router
+
+A reverse proxy / load balancer that's easy, dynamic, automatic, fast,
+full-featured, open source, production proven, provides metrics
+and integrates with every major cluster technology...
+No wonder it's so popular!
+
+
+$ docker load -i '/formation/traefik.tar.gz'
+4b0a2b20e92d: Loading layer [==================================================>]   278 kB/278 kB
+ea514f8f0312: Loading layer [==================================================>] 52.08 MB/52.08 MB
+Loaded image: traefik:latest
+
+
+
+
+$ docker run -d -p 9080:8080 -p 80:80 -v /var/run/docker.sock:/var/run/docker.sock --name traefik  traefik --api --docker
+
+Tester le fonctionnement de Traefik avec l’url
+
+UI ADMIN:
+http://localhost:9080
+http://localhost:9080/dashboard/
+
+Load balancer via point d'entrée qui est sur le port 80:
+http://localhost:80/*
+http://localhost/*
+
+===== relancer le module WEB en passant par 'traefik'
+
+avant:
+======
+$ docker run -d --name gc-web -p 8081:8080  \
+  -e ENV_SPRING_PROFILE=prod   \
+  --link gc-registry:ENVEUREKASERVER \
+  web
+
+  UI: http://localhost:8081/
+
+apres:
+======
+$ docker run -it --name gc-web2 \
+  -e ENV_SPRING_PROFILE=prod   \
+  --link gc-registry:ENVEUREKASERVER \
+  -l traefik.frontend.rule=PathPrefix:/ \
+  web
+
+ UI via 'traefik'
+ UI: http://localhost/
+

@@ -1,4 +1,10 @@
 
+====================
+====================
+==================== Lancer un projet spring-boot java en docker: eureka-registry
+====================
+====================
+
 ============================== REGISTRY
 # build image from Maven
 cd eureka-registry
@@ -25,6 +31,12 @@ $ docker logs -f a0fb9daae1c5cf
 
 # open browser UI
 http://localhost:8761
+
+====================
+====================
+==================== Lancer un projet spring-boot java en docker: API
+====================
+====================
 
 ============================== API
 
@@ -61,6 +73,12 @@ $ docker logs -f a0fb9daae1c5cf
 # open browser UI
 http://localhost:8080/api/clients
 http://localhost:8080/swagger-ui.html
+
+====================
+====================
+==================== Lancer un projet spring-boot java en docker: WEB front-end
+====================
+====================
 
 ============================== WEB
 
